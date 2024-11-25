@@ -1,0 +1,69 @@
+### Working with Linux File/Directory Permissions & Ownership ###
+
+Firstly we create a directory and file for this practice.
+[root@node1 ~]# mkdir linux21
+[root@node1 ~]# cd linux21
+[root@node1 linux21]# ls
+[root@node1 linux21]# mkdir day8
+[root@node1 linux21]# cd day8
+
+- **Command**: `mkdir linux21`  
+  Creates a directory named `linux21` in the current directory.  
+- **Command**: `cd linux21`  
+  Changes the working directory to `linux21`.  
+
+---
+
+```bash
+[root@node1 day8]# touch file1              # Creates a file named 'file1' in the 'day8' directory. 
+[root@node1 day8]# mkdir dir1               # Creates a directory named 'dir1' in the 'day8' directory.
+[root@node1 day8]# cp /etc/passwd  .        # Copies the '/etc/passwd' file to the current directory ('day8').
+
+```
+[root@node1 day8]# ll
+
+d rwxr-xr-x.  2  root  root     6  May 10 17:54  dir1
+- rw-r--r--.  1  root  root  2662  May 10 17:55  passwd
+- rw-r--r--.  1  root  root     0  May 10 17:54  file1
+1   2         3    4      5      6      7            8
+
+**Directory and File Details:**
+
+| Field | Description                                                                                     |
+|-------|-------------------------------------------------------------------------------------------------|
+| 1     | File/Directory Type: Linux has 7 types (`-`, `d`, `c`, `b`, `l`, `s`, `p`).                     |
+| 2     | Permissions: User, Group, Others, ACL.                                                          |
+| 3     | Links: The number of hard links to the file/directory.                                          |
+| 4     | Owner: The user who created the file/directory.                                                 |
+| 5     | Group Owner: The group to which the owner belongs.                                              |
+| 6     | Size: File size in bytes; for directories, size is usually `6` bytes.                           |
+| 7     | Modification Date: Last modification date and time.                                             |
+| 8     | Name: File or directory name.                                                                   |
+
+---
+
+### **Session 01**  
+**Working with Link Files:**  
+
+In Linux, link files connect one file to another. Changes made in one linked file are reflected in the other. This is similar to shortcut files in Windows.  
+
+- **Hard Link**:  
+  Files share the same inode number, size, and permissions but have different names. Deleting the original file does not affect the link. Hard links are only for files.  
+
+- **Soft Link (Symbolic Link)**:  
+  Files have different inode numbers but share content. If the original file is deleted, the link becomes non-functional. Symbolic links can be created for both files and directories.  
+
+#### Commands for Creating Links:
+```bash
+[root@node1 day8]# ln -s passwd passwd-soft       # Create a symbolic link using the '-s' option.
+[root@node1 day8]# ln passwd passwd-hard          # Create a hard link.
+[root@node1 day8]# echo "The End" >> passwd       # Append text to the 'passwd' file.
+[root@node1 day8]# tail -3 passwd
+[root@node1 day8]# tail -3 passwd-hard            # Changes are reflected here as it shares the content.
+[root@node1 day8]# tail -3 passwd-soft            # Changes are also reflected here due to the link.
+[root@node1 day8]# rm -f passwd                   # Deleting the original file.
+[root@node1 day8]# tail -3 passwd-hard            # Hard link remains functional.
+[root@node1 day8]# tail passwd-soft               # Soft link becomes non-functional.
+```
+
+By practicing these commands, you'll gain a solid understanding of file permissions, ownership, and link management in Linux.
