@@ -41,8 +41,7 @@ d rwxr-xr-x.  2  root  root     6  May 10 17:54  dir1
 | 8     | Name: File or directory name.                                                                   |
 
 ---
-
-### **Session 01**  
+  
 **Working with Link Files:**  
 
 In Linux, link files connect one file to another. Changes made in one linked file are reflected in the other. This is similar to shortcut files in Windows.  
