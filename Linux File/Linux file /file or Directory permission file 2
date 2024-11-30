@@ -1,0 +1,104 @@
+Translation to English
+________________________________________
+Field No: 2, 4 & 5 (Permission)
+[root@node1 folername]# ll 
+
+ - rw-r--r--. 1  root  root    0   Sep 26 09:52  file1  
+ d rwxr-xr-x. 2  root  root  4096  Sep 26 09:33  dir1  
+      (2)        (4)   (5)
+Subfield Explanation:
+•	-rw- r-- r-- . = file1: By default, Linux files do not have execute (x) permission.
+•	d rwx r-x r-x . = dir1: By default, Linux directories have execute (x) permission for the user, group, and others.
+    (u)  (g)  (o)  (A)
+u = user  
+g = group  
+o = others  
+A = ACL Permission (.)  
+•	r = Read (4): 
+o	For files, it means the file can be read.
+o	For directories, it allows the directory to be copied.
+•	w = Write (2): 
+o	For files, it means the file can be edited and saved.
+o	For directories, it allows pasting files into the directory.
+•	x = Execute (1): 
+o	For files, execute permission is only necessary if the file is a program, script, or application.
+o	For directories, execute permission allows access. Without it, the directory cannot be entered.
+•	- = No permission (0): No read, write, or execute permissions.
+•	. = ACL Permission (+): 
+o	By default, files and directories have a dot (.).
+o	When ACL (Access Control List) is applied, the dot changes to a plus sign +.
+Permission Calculation Examples:
+•	-rw- r-- r-- . = file1 (644)
+•	d rwx r-x r-x . = dir1 (755)
+Permissions	Calculation	Value (Octal)
+rw-	4 + 2 + 0	6 (User)
+r--	4 + 0 + 0	4 (Group)
+r--	4 + 0 + 0	4 (Others)
+Total		644
+Permissions	Calculation	Value (Octal)
+rwx	4 + 2 + 1	7 (User)
+r-x	4 + 0 + 1	5 (Group)
+r-x	4 + 0 + 1	5 (Others)
+Total		755
+By default:
+•	File permission = 644
+•	Directory permission = 755
+However, these permissions can be modified as needed.
+Maximum Permissions:
+•	Files: 666 (rw- rw- rw-)
+•	Directories: 777 (rwx rwx rwx)
+________________________________________
+Classwork Examples:
+•	740 = rwx r-- ---
+•	735 = rwx -wx r-x
+•	642 = rw- r-- -w-
+•	503 = r-x --- -wx
+•	150 = [Pending Calculation]
+•	326 = [Pending Calculation]
+•	467 = [Pending Calculation]
+•	631 = [Pending Calculation]
+________________________________________
+Lab Demo: Linux Standard File Permission
+This lab involves working with a file named file1, a group called students, and group members: sadat, sumon, malek. Additionally, a guest user tamim will also be involved.
+Group	Members	Others
+students	malek, sumon, sadat	all (except group members)
+________________________________________
+Ownership Configuration:
+1.	Assign ownership of file1 to user malek.
+2.	Assign group ownership to the students group.
+3.	Permissions: 
+o	User (malek): Full permission (rwx).
+o	Group (students): Read-only (r).
+o	Others: No permissions (---).
+Commands:
+[root@node1 folername]# chown malek file1  
+[root@node1 folername]# chgrp students file1  
+[root@node1 folername]# chmod 740 file1  
+Result:
+-rwxr-----. 1 malek students 0 Sep 26 09:52 file1
+Testing Permissions:
+1.	User (malek): 
+o	Can read, write, and execute file1.
+2.	Group members (sumon, sadat): 
+o	Can only read file1.
+3.	Others (tamim): 
+o	No access to file1.
+________________________________________
+ACL (Access Control List):
+ACL allows granting specific permissions to additional users or groups.
+Example:
+[root@serverX folername]# setfacl -m u:jack:rwx,u:rose:r--,u:tomy:--- profile  
+Result:
+[root@serverX folername]# getfacl profile  
+# file: profile  
+# owner: root  
+# group: root  
+user::rw-  
+user:jack:rwx  
+user:rose:r--  
+user:tomy:---  
+group::r--  
+mask::rwx  
+other::r--  
+ACL can also be used for groups or directories recursively.
+
