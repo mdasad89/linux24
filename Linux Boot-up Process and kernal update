@@ -1,0 +1,115 @@
+#### **Linux Boot-up Process**  
+The Linux boot-up process involves several sequential stages that prepare the system for user interaction:
+
+1. **ON => BIOS/UEFI:**  
+   - When the system is powered on, the firmware (BIOS/UEFI) initializes hardware and performs the **POST** (Power-On Self-Test).  
+   - Firmware checks and passes control to the next stage based on the boot mode (MBR or GPT).
+
+2. **MBR/GPT => GRUB2:**  
+   - The bootloader (GRUB2) is located in the Master Boot Record (MBR) or GUID Partition Table (GPT).  
+   - GRUB2 presents a menu to choose a kernel to boot; if no selection is made within the default timeout (5 seconds), it loads the default kernel.  
+
+3. **Linux Kernel:**  
+   - The kernel initializes system hardware, mounts temporary filesystems, and starts essential services.  
+   - It loads device drivers, kernel modules, and subsystems (e.g., file systems, security, storage).
+
+4. **systemd:**  
+   - The `systemd` process starts as the first user-space program. It manages the initialization of all system services.
+
+5. **Target:**  
+   - The system enters the specified target (run level):
+     - **Multiuser (tty):** Command-line interface.  
+     - **Graphical (pts):** Graphical user interface.  
+     - **Rescue/Emergency:** Minimal environment for troubleshooting.
+
+---
+
+#### **RHEL 9 Boot Loader**
+When the system boots:
+1. **Firmware Stage:**  
+   - The system passes through BIOS/UEFI firmware, accessing the MBR or GPT.  
+2. **Bootloader (GRUB):**  
+   - By default, the bootloader waits for 5 seconds for a kernel selection.  
+   - If no selection is made, the default kernel is automatically loaded.  
+   - The timeout can be adjusted in the GRUB configuration.
+
+   **Command to View Disk Type:**  
+
+  Command>  fdisk -l
+   ```
+   - **MBR (DOS):** Disk partition type for older systems.  
+   - **GPT (EFI):** Used for modern systems with UEFI.
+
+   **Bootloader Configuration Location:**  
+   - **MBR-based systems:** `/boot/grub2/grub.cfg`  
+   - **GPT-based systems:** `/boot/efi/EFI/redhat/grub.cfg`
+
+---
+
+#### **Working with Linux Kernel**
+The kernel is responsible for managing hardware and software resources:  
+- **Components:**  
+  - Device Drivers  
+  - Kernel Modules (e.g., filesystem, security, storage, networking)  
+  - Temporary Filesystems  
+
+- **Kernel Subsystems:**  
+  - File Systems  
+  - Storage  
+  - Security  
+
+---
+
+#### **Kernel Updates**
+Kernel updates ensure the system remains secure, compatible, and high-performing.  
+
+**Reasons to Update Kernel:**  
+1. Latest patch updates.  
+2. Fix software bugs.  
+3. Address security vulnerabilities.  
+4. Update drivers.  
+5. Add new kernel features.  
+6. Improve system performance.
+
+**Two Types of Kernel Updates:**  
+1. **Major Update:** Requires recompilation.  
+2. **Minor Update:** Easy to apply using package managers.
+
+**Check Kernel Version:**  
+
+Command> uname -r
+
+Example output:  
+`5.14.0-284.11.1.el9_2.x86_64`  
+- `5.14.0` - Linux Kernel build version.  
+- `284.11.1` - Red Hat package version.  
+- `el9_2` - Red Hat release number.  
+- `x86_64` - Processor architecture.
+
+---
+
+#### **Network Activation**
+To enable network connections in the graphical interface:
+1. Click the **power button** in the top-right corner.  
+2. Select the **Networking Icon**.  
+3. Click **Wired Connection** > **Connect**.
+
+
+
+#### **Kernel Management Commands**
+- **List Installed Kernels:**  
+ 
+Command>  yum list installed kernel-*
+
+- **Update Kernel:**  
+ 
+ Command>  yum update kernel -y
+  ```
+- **Reboot After Update:**  
+ 
+  reboot
+  ```
+- **Verify Kernel Version Post-Update:**  
+  ```bash
+  Command>  uname -r
+  
