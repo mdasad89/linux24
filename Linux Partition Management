@@ -1,0 +1,71 @@
+Linux Partition Management
+Linux Partition Management
+When installing the RHEL 9 operating system, four (4) partitions are created by default. The size of these partitions is specified as follows:
+1.	/boot/efi: 200 MiB (Required for GPT-based partitions).
+2.	/boot: 1024 MiB.
+3.	/: 20 GiB.
+4.	swap: 2 GiB.
+To view all system partitions, use the following command:
+[root@desktop ~]# lsblk  
+Example output:
+sda      8:0    0   30G  0 disk  
+├─sda1   8:1    0  200M  0 part /boot/efi  
+├─sda2   8:2    0    1G  0 part /boot  
+├─sda3   8:3    0   20G  0 part /  
+└─sda4   8:4    0    2G  0 part [SWAP]  
+________________________________________
+Partition Table Structure
+Linux and Windows systems use two types of partition tables:
+1.	MBR (Master Boot Record):
+o	Used with BIOS/Legacy firmware.
+o	Referred to as "dos" in Linux.
+2.	GPT (GUID Partition Table):
+o	Used with UEFI firmware.
+o	Referred to as "gpt" in Linux.
+Partition Table Comparison:
+•	MBR: 32-bit, supports up to 2 TB (512-byte sectors).
+•	GPT: 64-bit, supports up to 9.4 ZB (512-byte sectors).
+________________________________________
+Why Partition a Disk?
+Disk partitioning separates the system's operating system and user/application data into distinct partitions. This provides the following benefits:
+•	Data Safety: In case of partition failure or crash, data on other partitions remains unaffected.
+________________________________________
+File System Formats
+Each operating system uses specific file system formats for partitions.
+•	Windows File Systems: NTFS, FAT32.
+o	NTFS: Supports advanced features like security, encryption, compression, and larger file/partition sizes.
+o	FAT32: Simpler, but limited to 32 GB maximum partition size.
+•	Linux File Systems: ext2, ext3, ext4, XFS (current standard), vfat, swap, GFS2, ZFS (BSD).
+o	EXT4: Supports up to 50 TB.
+o	XFS: Supports up to 1 PB.
+________________________________________
+Linux Device File Naming Conventions:
+•	HDD/SSD (IDE/SATA/SAS/SCSI): /dev/sda, /dev/sdb, /dev/sdc.
+•	NVMe Drives: /dev/nvme0n1.
+•	Virtual Disks: /dev/vda, /dev/vdb.
+•	USB Drives: /dev/sda1, /dev/sdb1.
+•	DVD Drives: /dev/sr0.
+________________________________________
+Creating and Managing Partitions
+Linux provides tools like fdisk, parted, and cfdisk for disk partitioning.
+Example: Creating a New Partition with fdisk:
+1.	List available partitions:
+2.	fdisk -l  
+3.	Start partitioning:
+4.	fdisk /dev/sda  
+5.	Use the following commands during partitioning:
+•	n: Create a new partition.
+•	d: Delete a partition.
+•	t: Change the partition type.
+•	p: Display current partitions.
+•	w: Save changes and write to the disk.
+•	q: Quit without saving.
+6.	Example of creating a 300 MiB partition:
+•	Command: n
+•	Partition number: 5 (or default).
+•	First sector: Press Enter (default).
+•	Last sector: +300M.
+Result:
+Created a new partition 5 of type 'Linux filesystem' and size 300 MiB.  
+Let me know if you'd like any further clarification!
+
