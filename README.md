@@ -1,2 +1,2 @@
 # linux24
-Linux most used commands
+Most commonly used commands in Linux
