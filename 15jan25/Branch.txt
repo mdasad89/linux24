@@ -1,3 +1,4 @@
 1. Hello Everyone. i am learning git and git hub . 
 2. Today i am learning how to create a branch, pull and push command etc.
+3. Date -04feb 2025- learn how to create branch create , pull and push, mearging from locally.
 
